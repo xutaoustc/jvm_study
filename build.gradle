@@ -22,6 +22,7 @@ dependencies {
     compile group: 'cglib', name: 'cglib', version: '3.2.8'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
+    compile group: 'com.mchange', name: 'c3p0', version: '0.9.5.5'
 
 
 }

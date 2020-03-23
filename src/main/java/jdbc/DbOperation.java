@@ -8,13 +8,13 @@ import java.util.List;
 public enum DbOperation{
     INSTANCE;
 
-    public void testInsert() throws SQLException {
+    public void insert() throws SQLException {
         updateAction("insert into testTable(name,email) values (?,?)", "xu","xu@163.com");
     }
-    public void testUpdate() throws SQLException {
+    public void update() throws SQLException {
         updateAction("update testTable set name=? where id=?", "xu1",1);
     }
-    public void testDelete() throws SQLException {
+    public void delete() throws SQLException {
         updateAction("delete from testTable where id=?", 1);
     }
 
@@ -36,6 +36,20 @@ public enum DbOperation{
         // 4. close
         ps.close();
         connection.close();
+    }
+
+    public void updateActionWithoutCloseConnection(Connection connection,String sql, Object... params) throws SQLException {
+        PreparedStatement ps = connection.prepareStatement(sql);
+        int i = 0;
+        for(Object param : params){
+            ps.setObject(++i, param);
+        }
+
+        // 3. execute
+        ps.execute();
+
+        // 4. close
+        ps.close();
     }
 
     public <T> List<T> testQuery(Class<T> objClass, String sql, Object... params) throws SQLException, IllegalAccessException, InstantiationException, NoSuchFieldException {
@@ -107,7 +121,7 @@ public enum DbOperation{
         connection.close();
     }
 
-    private Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/testDB";
         String user = "xu1";
         String password = "123456";
